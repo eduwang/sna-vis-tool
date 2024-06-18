@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Network Analysis</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Social Network Analysis - Graph Visualizer</h1>
+        </header>
+        <div class="main-content">
+            <div class="left-section">
+                <input type="file" id="csvFileInput" accept=".csv" />
+                <div>
+                    <button onclick="handleFile()">Load CSV</button>
+                    <p id="data-count"></p> 
+                    <p id="error-csv-message"></p>
+                </div>
+                <div id="csvDataDisplay">
+                    <table id="csvTable">
+                        <thead>
+                            <tr id="csvHeader"></tr>
+                        </thead>
+                        <tbody id="csvBody"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="right-section">
+                <div id="graphDisplay">
+                    <div id="sigma-container" style="height: 500px;"></div>
+                    <button id="drawGraphButton" >Draw a Graph!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="1_dataViewer.js"></script>
+    <script type="module" src="2_graphVisualizer.js" defer></script>
+</body>
+</html>
