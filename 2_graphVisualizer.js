@@ -20,9 +20,11 @@ import Papa from "papaparse";
 
 document.getElementById('drawGraphButton').addEventListener('click', drawGraph);
 
+let sigmaInstance;
+
 function drawGraph() {
-    const source1ValuesDisplay = document.getElementById('source1ValuesDisplay');
-    source1ValuesDisplay.style.display = 'block';
+    const errorDisplay = document.getElementById('error-display');
+    errorDisplay.style.display = 'block';
     if (window.csvData && window.csvData.length > 0) {
         const graph = new Graph();
         
@@ -40,10 +42,22 @@ function drawGraph() {
         circular.assign(graph);
 
         forceAtlas2.assign(graph, { iterations: 100 });
+        // Clear previous graph if exists
+        if (sigmaInstance) {
+            sigmaInstance.kill();
+        }
+        // Sigma.js settings to enlarge node labels
+        const container = document.getElementById('sigma-container');
+        const settings = {
+            labelFont: "Arial",
+            labelSize: 50, // Increase this value to make labels larger
+            labelWeight: "bold", // Make labels bold
+            defaultNodeLabelSize: 14 // Default label size for nodes
+        };
 
-        new Sigma(graph, document.getElementById('sigma-container'));
-
+        sigmaInstance = new Sigma(graph, container, { settings });
+        errorDisplay.textContent = ' ';
     } else {
-        source1ValuesDisplay.textContent = '불러온 CSV 데이터가 없습니다.';
+        errorDisplay.textContent = '불러온 CSV 데이터가 없습니다.';
     }
 }
