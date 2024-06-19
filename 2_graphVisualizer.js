@@ -5,11 +5,13 @@ import { cropToLargestConnectedComponent } from "graphology-components";
 import circular from "graphology-layout/circular";
 import Papa from "papaparse";
 import louvain from 'graphology-communities-louvain';
+import iwanthue from 'iwanthue';
 
 document.getElementById('drawGraphButton').addEventListener('click', drawGraph);
 
 let graph;
 let sigmaInstance;
+let container;
 
 function drawGraph() {
     const errorDisplay = document.getElementById('error-display');
@@ -53,7 +55,7 @@ function drawGraph() {
         }
         
         // Sigma.js settings to enlarge node labels
-        const container = document.getElementById('sigma-container');
+        container = document.getElementById('sigma-container');
         container.innerHTML = '';
         const settings = {
             labelFont: "Arial",
@@ -67,6 +69,10 @@ function drawGraph() {
         errorDisplay.style.visibility = 'hidden';
         const additionalControl = document.getElementById('additional-contents')
         additionalControl.style.display = 'flex'
+
+        if (additionalControl) {
+            additionalControl.scrollIntoView({ behavior: 'smooth', block: 'start' }); // 스크롤을 부드럽게 처리하며 요소 상단에 맞춤
+        }
     } else {
         errorDisplay.textContent = '불러온 CSV 데이터가 없습니다.';
         errorDisplay.style.visibility = 'visible'; // 오류 메시지 표시
@@ -75,23 +81,28 @@ function drawGraph() {
 
 
 //Additional Graph Control
+//all that buttons
 const comDetectOn = document.getElementById('com-detect-on');
 const comDetectOff = document.getElementById('com-detect-off');
 const comIdentifier = document.getElementById('communities-identifier')
 const comList = document.getElementById('community-table-panel')
+const comLabel = document.getElementById('com-label')
 
 comDetectOn.addEventListener('click', communityAssign);
 comDetectOff.addEventListener('click', singleCommunity);
 comIdentifier.addEventListener('click', markComList);
+comLabel.addEventListener('click', labelCommunity);
 
 let communitiesList;
 let communityNodes;
+let communityColors;
 
 //Node에 커뮤니티 배정하기
 function communityAssign(){
     comDetectOn.style.display = 'none';
     comDetectOff.style.display = 'block';
     comIdentifier.style.display = 'block';
+    comLabel.style.display = 'block'
     
     //communities detection
     communitiesList = louvain(graph); //assign으로 direct assign 가능
@@ -124,7 +135,7 @@ function communityAssign(){
     };
 
     // 커뮤니티에 임의의 색상 배정
-    const communityColors = {};
+    communityColors = {};
     let colorIndex = 0;
     communitiesCount.forEach(community => {
         communityColors[community] = getRandomColor();
@@ -147,7 +158,7 @@ function communityAssign(){
     }
     
     // Sigma.js settings to enlarge node labels
-    const container = document.getElementById('sigma-container');
+    container = document.getElementById('sigma-container');
     container.innerHTML = '';
     const settings = {
         labelFont: "Arial",
@@ -170,6 +181,7 @@ function singleCommunity(){
     comDetectOff.style.display = 'none';
     comIdentifier.style.display = 'none';
     comList.style.display = 'none';
+    comLabel.style.display = 'none';
 
 
         // 노드에 색상 할당
@@ -189,7 +201,7 @@ function singleCommunity(){
         }
         
         // Sigma.js settings to enlarge node labels
-        const container = document.getElementById('sigma-container');
+        container = document.getElementById('sigma-container');
         container.innerHTML = '';
         const settings = {
             labelFont: "Arial",
@@ -202,6 +214,7 @@ function singleCommunity(){
         sigmaInstance = new Sigma(graph, container, { settings });
 }
 
+//커뮤니티에 소속된 노드들 표시하기 - communityAssign 함수에서 처리됨
 function updateCommunityNodes(communityNodes){
     const communityBody = document.getElementById('community-body');
     communityBody.innerHTML = ''; // 기존 내용 제거
@@ -218,7 +231,72 @@ function updateCommunityNodes(communityNodes){
     });
 }
 
+//Assign된 노드들 보여주기
 function markComList(){
     comList.style.display = 'block';
     comIdentifier.style.display = 'none';
 }
+
+//그래프 위에 커뮤니티를 label하여 보여주자
+function labelCommunity(){
+    comLabel.style.display = 'none';
+
+    //클러스터 정의
+    const clusters = {};
+
+    graph.forEachNode((node, atts) => {
+        if (!clusters[atts.community]) {
+          clusters[atts.community] = { label: atts.community, positions: [] };
+        }
+      });
+
+    //클러스터별 색상 배정 - communityColors를 그대로 가져오자
+    Object.keys(clusters).forEach((community, index) => {
+        clusters[community].color = communityColors[index];
+      });
+
+    // 노드의 x,y 좌표를 clusters에 추가하기
+    graph.forEachNode((node, atts) => {
+        const cluster = clusters[atts.community];
+        cluster.positions.push({ x: atts.x, y: atts.y });
+    });
+
+    // 클러스터의 노드 중심 계산
+    Object.keys(clusters).forEach((community) => {
+        const cluster = clusters[community];
+        cluster.x = cluster.positions.reduce((acc, p) => acc + p.x, 0) / cluster.positions.length;
+        cluster.y = cluster.positions.reduce((acc, p) => acc + p.y, 0) / cluster.positions.length;
+    });
+
+    // sigma 초기화
+    sigmaInstance.kill();
+    const renderer = new Sigma(graph, container);
+
+    // 클러스터 라벨 레이어 생성
+    const clustersLayer = document.createElement("div");
+    clustersLayer.id = "clustersLayer";
+    let clusterLabelsDoms = "";
+    Object.keys(clusters).forEach((community) => {
+        const cluster = clusters[community];
+        const viewportPos = renderer.graphToViewport(cluster);
+        clusterLabelsDoms += `<div id='${cluster.label}' class="clusterLabel" style="position:absolute; top:${viewportPos.y}px;left:${viewportPos.x}px;color:${cluster.color}; font-size: 20px; font-weight: bold; opacity: 0.5;">Community ${cluster.label}</div>`;
+    });
+    clustersLayer.innerHTML = clusterLabelsDoms;
+    container.insertBefore(clustersLayer, document.getElementsByClassName("sigma-hovers")[0]);
+
+    // 각 렌더 후 클러스터 라벨 위치 업데이트
+    renderer.on("afterRender", () => {
+        Object.keys(clusters).forEach((country) => {
+        const cluster = clusters[country];
+        const clusterLabel = document.getElementById(cluster.label);
+        if (clusterLabel) {
+            const viewportPos = renderer.graphToViewport(cluster);
+            clusterLabel.style.top = `${viewportPos.y}px`;
+            clusterLabel.style.left = `${viewportPos.x}px`;
+        }
+        });
+    });
+
+}
+
+
