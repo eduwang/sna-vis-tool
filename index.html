@@ -31,12 +31,38 @@
             <div class="right-section">
                 <div id="graphDisplay">
                     <button id="drawGraphButton" >Draw a Graph!</button>
-                    <div id="sigma-container" style="height: 500px;">
-                        <div id="error-display" style="display:none;"></div>
-                    </div>
+                    <div id="error-display" style="visibility: hidden;"></div>
+                    <div id="sigma-container"></div>
                 </div>
             </div>
         </div>
+        <div id="additional-contents" style="display: none;">
+            <div class="control-panel">
+                <button id="communities-identifier" style="display: none;">Identify Communities</button>
+                <button id="com-detect-on">Communities Detection ON</button>
+                <button id="com-detect-off" style="display: none;">Communities Detection OFF</button>
+            </div>
+            <div class="controlled-data-panel">
+                <div id="community-table-panel" style="display: none;">
+                    <table id="community-table">
+                        <thead>
+                            <tr>
+                                <th>Community ID</th>
+                                <th>Nodes</th>
+                            </tr>
+                            <tbody id="community-body">
+    
+                            </tbody>
+                        </thead>    
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <footer>
+            <p>Made by Hyowon Wang</p>
+            <p>with <a href="https://graphology.github.io/">graphology</a> + <a href="https://www.sigmajs.org/">sigma.js</a></p>
+        </footer>
     </div>
     <script type="module" src="1_dataViewer.js"></script>
     <script type="module" src="2_graphVisualizer.js"></script>

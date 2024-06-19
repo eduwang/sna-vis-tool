@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "graphology": "^0.25.4",
+    "graphology-communities-louvain": "^2.0.1",
     "graphology-components": "^1.5.4",
     "graphology-layout": "^0.6.1",
     "graphology-layout-forceatlas2": "^0.10.1",
