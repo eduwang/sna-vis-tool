@@ -203,7 +203,6 @@ function singleCommunity(){
 }
 
 function updateCommunityNodes(communityNodes){
-    console.log(communitiesList);
     const communityBody = document.getElementById('community-body');
     communityBody.innerHTML = ''; // 기존 내용 제거
 
