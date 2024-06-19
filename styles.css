@@ -19,6 +19,9 @@ header {
   text-align: center;
   margin-bottom: 20px;
   z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 세로 정렬을 위해 중앙 정렬합니다. */
 }
 
 h1 {
@@ -148,4 +151,25 @@ footer p{
 footer a{
   color: inherit;
   text-decoration: none;
+}
+
+/* for sample-data page */
+#sample-container{
+  width: 100%;
+  background-color: rgb(185, 224, 255);
+  padding-top: 1%;
+  padding-bottom: 1%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#sample-container button{
+  font-size: 20px;
+  font-family: "Roboto", sans-serif;
+  background: none;
+  border: none;
+}
+
+#sample-container button:hover {
+  background-color: #000000; /* 호버 시 텍스트 밑줄 효과 */
+  color: #ddd;
 }
