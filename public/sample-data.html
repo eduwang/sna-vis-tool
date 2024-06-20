@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Network Analysis</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- decode 방식이 다름 -->
+    <script src="https://cdn.jsdelivr.net/npm/text-encoding-detector@0.2.1/dist/encoding-indexes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/text-encoding-detector@0.2.1/dist/text-encoding-detect.js"></script>
+    <!--  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Social Network Analysis - Graph Visualizer
+                <br>
+                Sample Data
+            </h1>
+            <div id="sample-container">
+                <button onclick="loadData('sample-data/edge_list_correct.csv')">Data 1</button>
+                <button onclick="loadData('sample-data/chirsevans_map.csv')">Data 2</button>
+            </div>
+        </header>
+        <div class="main-content">
+            <div class="left-section">
+                <input type="file" id="csvFileInput" accept=".csv" style="display: none;"/>
+                <div>
+                    <button onclick="handleFile()" style="display: none;">Load CSV</button>
+                    <p id="data-count"></p> 
+                    <p id="error-csv-message"></p>
+                </div>
+                <div id="csvDataDisplay">
+                    <table id="csvTable">
+                        <thead>
+                            <tr id="csvHeader"></tr>
+                        </thead>
+                        <tbody id="csvBody"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="right-section">
+                <div id="graphDisplay">
+                    <button id="drawGraphButton" >Draw a Graph!</button>
+                    <div id="error-display" style="visibility: hidden;"></div>
+                    <div id="sigma-container"></div>
+                </div>
+            </div>
+        </div>
+        <div id="additional-contents" style="display: none;">
+            <div class="control-panel">
+                <button id="communities-identifier" style="display: none;">Identify Communities</button>
+                <button id="com-label" style="display: none;">Label Communities</button>
+                <button id="com-detect-on">Communities Detection ON</button>
+                <button id="com-detect-off" style="display: none;">Communities Detection OFF</button>
+                <p>Communities are assigned by <a href="https://en.wikipedia.org/wiki/Louvain_method" style="text-decoration: none; color: inherit;" target="_blank">Louvain algorithm</a></p>
+            </div>
+            <div class="controlled-data-panel">
+                <div id="community-table-panel" style="display: none;">
+                    <table id="community-table">
+                        <thead>
+                            <tr>
+                                <th>Community ID</th>
+                                <th>Nodes</th>
+                            </tr>
+                            <tbody id="community-body">
+    
+                            </tbody>
+                        </thead>    
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <footer>
+            <p>Made by Hyowon Wang</p>
+            <p>with <a target="_blank" href="https://graphology.github.io/">graphology</a> + <a target="_blank" href="https://www.sigmajs.org/">sigma.js</a></p>
+        </footer>
+    </div>
+    <script type="module" src="1_dataViewer.js"></script>
+    <script type="module" src="2_graphVisualizer.js"></script>
+    <script type="module" src="3_sampleDataLoader.js" defer></script>
+</body>
+</html>
