@@ -17,6 +17,7 @@
     "graphology-components": "^1.5.4",
     "graphology-layout": "^0.6.1",
     "graphology-layout-forceatlas2": "^0.10.1",
+    "graphology-metrics": "^2.3.0",
     "iwanthue": "^2.0.0",
     "papaparse": "^5.4.1",
     "sigma": "^2.4.0"

@@ -42,6 +42,7 @@
                 </div>
             </div>
         </div>
+        <!-- 두 번째 섹션 -->
         <div id="additional-contents" style="display: none;">
             <div class="control-panel">
                 <button id="communities-identifier" style="display: none;">Identify Communities</button>
@@ -59,14 +60,35 @@
                                 <th>Nodes</th>
                             </tr>
                             <tbody id="community-body">
-    
                             </tbody>
                         </thead>    
                     </table>
                 </div>
-
             </div>
         </div>
+
+        <!-- 세 번째 섹션 -->
+        <div id="additional-contents-centrality" style="display: none;">
+            <div class="control-panel">
+                <button id="compute-cen">Compute Centrality</button>
+            </div>
+            <div class="controlled-data-panel">
+                <div id="centrality-table-panel" style="display: none;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Node</th>
+                                <th>Degree Centrality</th>
+                                <th>Eigenvector Centrality</th>
+                            </tr>
+                        </thead>
+                        <tbody id="centrality-body">
+                        </tbody>
+                    </table>    
+                </div>
+            </div>
+        </div>
+
         <footer>
             <p>Made by Hyowon Wang</p>
             <p>with <a target="_blank" href="https://graphology.github.io/">graphology</a> + <a target="_blank" href="https://www.sigmajs.org/">sigma.js</a></p>

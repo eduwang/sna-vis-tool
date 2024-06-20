@@ -6,6 +6,9 @@ import circular from "graphology-layout/circular";
 import Papa from "papaparse";
 import louvain from 'graphology-communities-louvain';
 import iwanthue from 'iwanthue';
+import { degreeCentrality, inDegreeCentrality, outDegreeCentrality } from 'graphology-metrics/centrality/degree';
+import eigenvectorCentrality from 'graphology-metrics/centrality/eigenvector';
+
 
 document.getElementById('drawGraphButton').addEventListener('click', drawGraph);
 
@@ -67,8 +70,10 @@ function drawGraph() {
 
         sigmaInstance = new Sigma(graph, container, { settings });
         errorDisplay.style.visibility = 'hidden';
-        const additionalControl = document.getElementById('additional-contents')
-        additionalControl.style.display = 'flex'
+        const additionalControl = document.getElementById('additional-contents');
+        additionalControl.style.display = 'flex';
+        const centralityTable = document.getElementById('additional-contents-centrality');
+        centralityTable.style.display = 'flex';
 
         if (additionalControl) {
             additionalControl.scrollIntoView({ behavior: 'smooth', block: 'start' }); // 스크롤을 부드럽게 처리하며 요소 상단에 맞춤
@@ -77,6 +82,9 @@ function drawGraph() {
         errorDisplay.textContent = '불러온 CSV 데이터가 없습니다.';
         errorDisplay.style.visibility = 'visible'; // 오류 메시지 표시
     }
+
+
+
 }
 
 
@@ -299,4 +307,47 @@ function labelCommunity(){
 
 }
 
+//중심성 계산하는 함수 만들기
+const computeCen = document.getElementById('compute-cen')
+const centralityDataTable = document.getElementById('centrality-table-panel');
 
+computeCen.addEventListener('click', computeCentrality);
+
+function computeCentrality(){
+    const degreeCen = degreeCentrality(graph);
+    Object.keys(degreeCen).forEach(node => {
+        graph.setNodeAttribute(node, 'degreeCentrality', parseFloat(degreeCen[node].toFixed(3)));
+      });
+    // Eigenvector Centrality 계산 및 할당
+    let eigenCen;
+    try {
+      eigenCen = eigenvectorCentrality(graph);
+      Object.keys(eigenCen).forEach(node => {
+        graph.setNodeAttribute(node, 'eigenvectorCentrality', parseFloat(eigenCen[node].toFixed(3)));
+      });
+    } catch (error) {
+      console.error('Error calculating eigenvector centrality:', error);
+      // Eigenvector centrality 계산 실패 시 각 노드에 'N/A' 할당
+      graph.forEachNode(node => {
+        graph.setNodeAttribute(node, 'eigenvectorCentrality', 'N/A');
+      });
+    }
+    
+    const centralityBody = document.getElementById('centrality-body');
+    centralityBody.innerHTML = ''; // 기존 내용 제거
+
+    graph.forEachNode((node, attributes) => {
+        const row = document.createElement('tr');
+        const nodeCell = document.createElement('td');
+        nodeCell.textContent = node;
+        const degreeCell = document.createElement('td');
+        degreeCell.textContent = attributes.degreeCentrality.toFixed(3);
+        const eigenCell = document.createElement('td');
+        eigenCell.textContent = attributes.eigenvectorCentrality === 'N/A' ? 'N/A' : attributes.eigenvectorCentrality.toFixed(3);
+        row.appendChild(nodeCell);
+        row.appendChild(degreeCell);
+        row.appendChild(eigenCell);
+        centralityBody.appendChild(row);
+    });
+    centralityDataTable.style.display = 'block';
+};

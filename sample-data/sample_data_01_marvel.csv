@@ -1,13 +1,13 @@
 Source1,Source2,Weight
-Óscar Jaenada,Peter Macdissi,1
-Óscar Jaenada,Chris Evans,1
-Óscar Jaenada,Columbus Short,1
-Óscar Jaenada,Holt McCallany,1
-Óscar Jaenada,Jason Patric,1
-Óscar Jaenada,Zoe Saldana,1
-Óscar Jaenada,Idris Elba,1
-Óscar Jaenada,Peter Francis James,1
-Óscar Jaenada,Jeffrey Dean Morgan,1
+Oscar Jaenada,Peter Macdissi,1
+Oscar Jaenada,Chris Evans,1
+Oscar Jaenada,Columbus Short,1
+Oscar Jaenada,Holt McCallany,1
+Oscar Jaenada,Jason Patric,1
+Oscar Jaenada,Zoe Saldana,1
+Oscar Jaenada,Idris Elba,1
+Oscar Jaenada,Peter Francis James,1
+Oscar Jaenada,Jeffrey Dean Morgan,1
 Aubrey Plaza,Chris Evans,1
 Aubrey Plaza,Johnny Simmons,1
 Aubrey Plaza,Jason Schwartzman,2
@@ -68,7 +68,7 @@ Mako Iwamatsu,Mae Whitman,1
 Mako Iwamatsu,James Arnold Taylor,1
 Mako Iwamatsu,Laurence Fishburne,1
 Mako Iwamatsu,Patrick Stewart,1
-Peter Macdissi,Óscar Jaenada,1
+Peter Macdissi,?scar Jaenada,1
 Peter Macdissi,Chris Evans,1
 Peter Macdissi,Columbus Short,1
 Peter Macdissi,Holt McCallany,1
@@ -187,7 +187,7 @@ Paul Rudd,Vin Diesel,1
 Paul Rudd,Michael Cera,1
 Paul Rudd,Laurence Fishburne,1
 Paul Rudd,Cobie Smulders,1
-Chris Evans,Óscar Jaenada,1
+Chris Evans,?scar Jaenada,1
 Chris Evans,Aubrey Plaza,1
 Chris Evans,JoAnna Garcia Swisher,1
 Chris Evans,Mia Kirshner,1
@@ -321,7 +321,7 @@ Tom Holland,Elizabeth Olsen,1
 Tom Holland,Chadwick Boseman,1
 Tom Holland,Vin Diesel,1
 Tom Holland,Cobie Smulders,1
-Columbus Short,Óscar Jaenada,1
+Columbus Short,?scar Jaenada,1
 Columbus Short,Peter Macdissi,1
 Columbus Short,Chris Evans,1
 Columbus Short,Holt McCallany,1
@@ -518,7 +518,7 @@ Michael Kenneth Williams,Greg Kinnear,1
 Michael Kenneth Williams,Michiel Huisman,1
 Michael Kenneth Williams,Mary Elizabeth Winstead,1
 Michael Kenneth Williams,Chris Chalk,2
-Holt McCallany,Óscar Jaenada,1
+Holt McCallany,?scar Jaenada,1
 Holt McCallany,Peter Macdissi,1
 Holt McCallany,Chris Evans,1
 Holt McCallany,Columbus Short,1
@@ -607,7 +607,7 @@ Karen Gillan,Elizabeth Olsen,1
 Karen Gillan,Chadwick Boseman,1
 Karen Gillan,Vin Diesel,1
 Karen Gillan,Cobie Smulders,1
-Jason Patric,Óscar Jaenada,1
+Jason Patric,?scar Jaenada,1
 Jason Patric,Peter Macdissi,1
 Jason Patric,Chris Evans,1
 Jason Patric,Columbus Short,1
@@ -1079,7 +1079,7 @@ Sebastian Stan,Elizabeth Olsen,1
 Sebastian Stan,Chadwick Boseman,1
 Sebastian Stan,Vin Diesel,1
 Sebastian Stan,Cobie Smulders,1
-Zoe Saldana,Óscar Jaenada,1
+Zoe Saldana,?scar Jaenada,1
 Zoe Saldana,Peter Macdissi,1
 Zoe Saldana,Tom Hiddleston,1
 Zoe Saldana,Paul Rudd,1
@@ -1239,7 +1239,7 @@ Chris Hemsworth,Elizabeth Olsen,1
 Chris Hemsworth,Chadwick Boseman,1
 Chris Hemsworth,Vin Diesel,1
 Chris Hemsworth,Cobie Smulders,1
-Idris Elba,Óscar Jaenada,1
+Idris Elba,?scar Jaenada,1
 Idris Elba,Peter Macdissi,1
 Idris Elba,Tom Hiddleston,1
 Idris Elba,Chris Evans,1
@@ -1460,7 +1460,7 @@ Michiel Huisman,Haley Bennett,1
 Michiel Huisman,Greg Kinnear,1
 Michiel Huisman,Mary Elizabeth Winstead,1
 Michiel Huisman,Chris Chalk,1
-Peter Francis James,Óscar Jaenada,1
+Peter Francis James,?scar Jaenada,1
 Peter Francis James,Peter Macdissi,1
 Peter Francis James,Chris Evans,1
 Peter Francis James,Columbus Short,1
@@ -1553,7 +1553,7 @@ Brie Larson,Brandon Routh,1
 Brie Larson,Ellen Wong,1
 Brie Larson,Michael Cera,1
 Brie Larson,Mary Elizabeth Winstead,2
-Jeffrey Dean Morgan,Óscar Jaenada,1
+Jeffrey Dean Morgan,?scar Jaenada,1
 Jeffrey Dean Morgan,Peter Macdissi,1
 Jeffrey Dean Morgan,Chris Evans,1
 Jeffrey Dean Morgan,Columbus Short,1

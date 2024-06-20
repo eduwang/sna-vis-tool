@@ -63,7 +63,7 @@ h1 {
   font-size: 20px;
 }
 
-#additional-contents {
+#additional-contents, #additional-contents-centrality {
   display: flex;
   justify-content: space-between;
   z-index: 10;

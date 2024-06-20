@@ -18,11 +18,12 @@
         <header>
             <h1>Social Network Analysis - Graph Visualizer
                 <br>
-                Sample Data
+                Example Data
             </h1>
             <div id="sample-container">
-                <button onclick="loadData('sample-data/edge_list_correct.csv')">Data 1</button>
-                <button onclick="loadData('sample-data/chirsevans_map.csv')">Data 2</button>
+                <button onclick="loadData('sample-data/sample_data_01_marvel.csv')">Data 1</button>
+                <button onclick="loadData('sample-data/sample_data_02_SH.csv')">Data 2</button>
+                <button onclick="loadData('sample-data/sample_data_03_star.csv')">Data 3</button>
             </div>
         </header>
         <div class="main-content">
@@ -75,6 +76,29 @@
 
             </div>
         </div>
+
+        <!-- 세 번째 섹션 -->
+        <div id="additional-contents-centrality" style="display: none;">
+            <div class="control-panel">
+                <button id="compute-cen">Compute Centrality</button>
+            </div>
+            <div class="controlled-data-panel">
+                <div id="centrality-table-panel" style="display: none;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Node</th>
+                                <th>Degree Centrality</th>
+                                <th>Eigenvector Centrality</th>
+                            </tr>
+                        </thead>
+                        <tbody id="centrality-body">
+                        </tbody>
+                    </table>    
+                </div>
+            </div>
+        </div>
+        
         <footer>
             <p>Made by Hyowon Wang</p>
             <p>with <a target="_blank" href="https://graphology.github.io/">graphology</a> + <a target="_blank" href="https://www.sigmajs.org/">sigma.js</a></p>
