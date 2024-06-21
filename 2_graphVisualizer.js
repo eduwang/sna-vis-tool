@@ -64,8 +64,7 @@ function drawGraph() {
             labelFont: "Arial",
             //labelSize: 50, // Increase this value to make labels larger
             labelWeight: "bold", // Make labels bold
-            defaultNodeLabelSize: 200, // Default label size for nodes
-            labelSize: 'fixed'
+            defaultNodeLabelSize: 50, // Default label size for nodes
         };
 
         sigmaInstance = new Sigma(graph, container, { settings });
