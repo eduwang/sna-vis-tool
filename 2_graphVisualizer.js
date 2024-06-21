@@ -82,8 +82,12 @@ function drawGraph() {
         errorDisplay.textContent = '불러온 CSV 데이터가 없습니다.';
         errorDisplay.style.visibility = 'visible'; // 오류 메시지 표시
     }
-
-
+    if (centralityBody){
+        centralityBody.innerHTML = ''; // 기존 내용 제거
+    };
+    if(communityBody){
+        communityBody.innerHTML = ''; // 기존 내용 제거
+    }
 
 }
 
@@ -223,8 +227,9 @@ function singleCommunity(){
 }
 
 //커뮤니티에 소속된 노드들 표시하기 - communityAssign 함수에서 처리됨
+let communityBody;
 function updateCommunityNodes(communityNodes){
-    const communityBody = document.getElementById('community-body');
+    communityBody = document.getElementById('community-body');
     communityBody.innerHTML = ''; // 기존 내용 제거
 
     Object.keys(communityNodes).forEach(community => {
@@ -310,22 +315,34 @@ function labelCommunity(){
 //중심성 계산하는 함수 만들기
 const computeCen = document.getElementById('compute-cen')
 const centralityDataTable = document.getElementById('centrality-table-panel');
+const sortByDegree = document.getElementById('sort-by-degree');
+const sortByEigen = document.getElementById('sort-by-eigen');
 
 computeCen.addEventListener('click', computeCentrality);
+sortByDegree.addEventListener('click',sortByDC);
+sortByEigen.addEventListener('click', sortByEC);
+
+let degreeCen;
+let eigenCen;
+let centralityBody;
+let nodes = [];
 
 function computeCentrality(){
-    const degreeCen = degreeCentrality(graph);
+    degreeCen = degreeCentrality(graph);
     Object.keys(degreeCen).forEach(node => {
         graph.setNodeAttribute(node, 'degreeCentrality', parseFloat(degreeCen[node].toFixed(3)));
       });
+    sortByDegree.style.display = 'inline'
     // Eigenvector Centrality 계산 및 할당
-    let eigenCen;
+    eigenCen;
     try {
       eigenCen = eigenvectorCentrality(graph);
       Object.keys(eigenCen).forEach(node => {
         graph.setNodeAttribute(node, 'eigenvectorCentrality', parseFloat(eigenCen[node].toFixed(3)));
       });
+      sortByEigen.style.display = 'inline'
     } catch (error) {
+        sortByEigen.style.display = 'none';
       console.error('Error calculating eigenvector centrality:', error);
       // Eigenvector centrality 계산 실패 시 각 노드에 'N/A' 할당
       graph.forEachNode(node => {
@@ -333,8 +350,31 @@ function computeCentrality(){
       });
     }
     
-    const centralityBody = document.getElementById('centrality-body');
+    centralityBody = document.getElementById('centrality-body');
     centralityBody.innerHTML = ''; // 기존 내용 제거
+
+    // 노드를 중심성 기준으로 정렬
+    graph.forEachNode((node, attributes) => {
+        nodes.push({
+            node: node,
+            degreeCentrality: attributes.degreeCentrality,
+            eigenvectorCentrality: attributes.eigenvectorCentrality
+        });
+    });
+
+    // 정렬: degreeCentrality를 우선, eigenvectorCentrality를 그 다음으로 기준
+    nodes.sort((a, b) => {
+        if (b.degreeCentrality !== a.degreeCentrality) {
+            return b.degreeCentrality - a.degreeCentrality;
+        } else {
+            if (a.eigenvectorCentrality === 'N/A') return 1;
+            if (b.eigenvectorCentrality === 'N/A') return -1;
+            return b.eigenvectorCentrality - a.eigenvectorCentrality;
+        }
+    });
+
+    // 상위 10개 노드 추출
+    const top10Nodes = new Set(nodes.slice(0, 10).map(n => n.node));
 
     graph.forEachNode((node, attributes) => {
         const row = document.createElement('tr');
@@ -349,5 +389,87 @@ function computeCentrality(){
         row.appendChild(eigenCell);
         centralityBody.appendChild(row);
     });
+    
     centralityDataTable.style.display = 'block';
+};
+
+function sortByDC(){
+    centralityBody.innerHTML = ''; // 기존 내용 제거
+
+    // 정렬: degreeCentrality를 우선, eigenvectorCentrality를 그 다음으로 기준
+    nodes.sort((a, b) => {
+        if (b.degreeCentrality !== a.degreeCentrality) {
+            return b.degreeCentrality - a.degreeCentrality;
+        } else {
+            if (a.eigenvectorCentrality === 'N/A') return 1;
+            if (b.eigenvectorCentrality === 'N/A') return -1;
+            return b.eigenvectorCentrality - a.eigenvectorCentrality;
+        }
+    });
+
+    // 상위 10개 노드 추출
+    const top10Nodes = new Set(nodes.slice(0, 10).map(n => n.node));
+
+    // 테이블에 데이터 추가
+    nodes.forEach(({ node, degreeCentrality, eigenvectorCentrality }) => {
+        const row = document.createElement('tr');
+
+        // 상위 10개 노드에 대해 글씨와 테두리를 굵게 처리
+        if (top10Nodes.has(node)) {
+            row.style.fontWeight = 'bold';
+            row.style.border = '2px solid black';
+        }
+
+        const nodeCell = document.createElement('td');
+        nodeCell.textContent = node;
+        const degreeCell = document.createElement('td');
+        degreeCell.textContent = degreeCentrality.toFixed(3);
+        const eigenCell = document.createElement('td');
+        eigenCell.textContent = eigenvectorCentrality === 'N/A' ? 'N/A' : eigenvectorCentrality.toFixed(3);
+        
+        row.appendChild(nodeCell);
+        row.appendChild(degreeCell);
+        row.appendChild(eigenCell);
+        centralityBody.appendChild(row);
+    });    
+};
+
+function sortByEC(){
+    centralityBody.innerHTML = ''; // 기존 내용 제거
+    // 정렬: eigenvectorCentrality 우선, degreeCentrality를 다음으로 기준으로 함 
+    nodes.sort((a, b) => {
+        if (b.eigenvectorCentrality !== a.eigenvectorCentrality) {
+            return b.eigenvectorCentrality - a.eigenvectorCentrality;
+        } else {
+            if (a.degreeCentrality === 'N/A') return 1;
+            if (b.degreeCentrality === 'N/A') return -1;
+            return b.degreeCentrality - a.degreeCentrality;
+        }
+    });
+
+    // 상위 10개 노드 추출
+    const top10Nodes = new Set(nodes.slice(0, 10).map(n => n.node));
+
+    // 테이블에 데이터 추가
+    nodes.forEach(({ node, degreeCentrality, eigenvectorCentrality }) => {
+        const row = document.createElement('tr');
+
+        // 상위 10개 노드에 대해 글씨와 테두리를 굵게 처리
+        if (top10Nodes.has(node)) {
+            row.style.fontWeight = 'bold';
+            row.style.border = '2px solid black';
+        }
+
+        const nodeCell = document.createElement('td');
+        nodeCell.textContent = node;
+        const degreeCell = document.createElement('td');
+        degreeCell.textContent = degreeCentrality.toFixed(3);
+        const eigenCell = document.createElement('td');
+        eigenCell.textContent = eigenvectorCentrality === 'N/A' ? 'N/A' : eigenvectorCentrality.toFixed(3);
+        
+        row.appendChild(nodeCell);
+        row.appendChild(degreeCell);
+        row.appendChild(eigenCell);
+        centralityBody.appendChild(row);
+    });    
 };
