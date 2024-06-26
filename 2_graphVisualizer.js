@@ -15,12 +15,18 @@ document.getElementById('drawGraphButton').addEventListener('click', drawGraph);
 let graph;
 let sigmaInstance;
 let container;
+let comResolution = 1;
 
 function drawGraph() {
     const errorDisplay = document.getElementById('error-display');
     errorDisplay.style.display = 'block';
     sortByDegree.style.display = 'none';
     sortByEigen.style.display = 'none';
+    comResolution = 1;
+    if (comDetectOff.style.display == 'block'){
+        singleCommunity();
+    };
+
     if (window.csvData && window.csvData.length > 0) {
         graph = new Graph();
         
@@ -97,14 +103,39 @@ function drawGraph() {
 //all that buttons
 const comDetectOn = document.getElementById('com-detect-on');
 const comDetectOff = document.getElementById('com-detect-off');
-const comIdentifier = document.getElementById('communities-identifier')
-const comList = document.getElementById('community-table-panel')
-const comLabel = document.getElementById('com-label')
+const comIdentifier = document.getElementById('communities-identifier');
+const comList = document.getElementById('community-table-panel');
+const comLabel = document.getElementById('com-label');
+const comIncrease = document.getElementById('com-increase');
+const comDecrease = document.getElementById('com-decrease');
 
 comDetectOn.addEventListener('click', communityAssign);
 comDetectOff.addEventListener('click', singleCommunity);
 comIdentifier.addEventListener('click', markComList);
 comLabel.addEventListener('click', labelCommunity);
+comIncrease.addEventListener('click', () =>{
+    comResolution += 0.2;
+    if (comResolution > 3){
+        alert('집단의 수가 너무 많습니다. 처음으로 돌아갑니다.')
+        comResolution = 1;
+        communityAssign();
+        labelCommunity();
+    } else{
+        communityAssign();
+        labelCommunity();
+    }
+   console.log(comResolution);
+});
+comDecrease.addEventListener('click', () =>{
+    comResolution -= 0.2;
+    if (comResolution < 0){
+        alert('집단의 수를 더 이상 줄일 수 없습니다.')
+        comResolution = 0;
+    } else{
+        communityAssign();
+        labelCommunity();
+    }
+});
 
 let communitiesList;
 let communityNodes;
@@ -115,11 +146,16 @@ function communityAssign(){
     comDetectOn.style.display = 'none';
     comDetectOff.style.display = 'block';
     comIdentifier.style.display = 'block';
-    comLabel.style.display = 'block'
+    comLabel.style.display = 'block';
+    comIncrease.style.display = 'inline';
+    comDecrease.style.display = 'inline';
     
     //communities detection
     communitiesList = louvain(graph); //assign으로 direct assign 가능
-    louvain.assign(graph);
+    louvain.assign(graph,{
+        resolution: comResolution,
+        randomWalk: false
+    });
 
     // 커뮤니티 ID를 수집
     const communitiesCount = new Set();
@@ -195,6 +231,8 @@ function singleCommunity(){
     comIdentifier.style.display = 'none';
     comList.style.display = 'none';
     comLabel.style.display = 'none';
+    comIncrease.style.display = 'none';
+    comDecrease.style.display = 'none';
 
 
         // 노드에 색상 할당
@@ -248,12 +286,10 @@ function updateCommunityNodes(communityNodes){
 //Assign된 노드들 보여주기
 function markComList(){
     comList.style.display = 'block';
-    comIdentifier.style.display = 'none';
 }
 
 //그래프 위에 커뮤니티를 label하여 보여주자
 function labelCommunity(){
-    comLabel.style.display = 'none';
 
     //클러스터 정의
     const clusters = {};
