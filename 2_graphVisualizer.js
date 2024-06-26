@@ -19,6 +19,8 @@ let container;
 function drawGraph() {
     const errorDisplay = document.getElementById('error-display');
     errorDisplay.style.display = 'block';
+    sortByDegree.style.display = 'none';
+    sortByEigen.style.display = 'none';
     if (window.csvData && window.csvData.length > 0) {
         graph = new Graph();
         
@@ -351,7 +353,9 @@ function computeCentrality(){
     
     centralityBody = document.getElementById('centrality-body');
     centralityBody.innerHTML = ''; // 기존 내용 제거
-
+    if (nodes.length =! 0){
+        nodes = [];
+    }
     // 노드를 중심성 기준으로 정렬
     graph.forEachNode((node, attributes) => {
         nodes.push({
