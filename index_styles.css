@@ -1,0 +1,105 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* Add flex-direction: column for vertical alignment */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Use min-height instead of height */
+    background-color: #f4f4f4;
+  }
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 세로 정렬을 위해 중앙 정렬합니다. */
+  }
+h1 {
+    margin: 0;
+    padding: 20px 0;
+    font-size: 3em;
+}
+
+.main-section {
+    display: flex;
+    margin: 20px auto; /* 중앙 정렬 및 상단과 하단 여백 추가 */
+    padding: 0 20px; /* 좌우 여백 추가 */
+    box-sizing: border-box; /* padding을 포함한 전체 너비 계산 */
+    justify-content: space-between;
+}
+
+.left-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.left-content img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 3%;
+}
+
+.left-content p{
+    font-size: 20px;
+    font-family: "Noto Sans KR", sans-serif;
+    font-optical-sizing: auto;
+    text-align: justify;
+    text-indent: 20px;
+    margin-bottom: 1%;
+    margin-top: 0;
+}
+
+.right-content {
+    flex: 1;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    padding-left: 3%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.large-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+    background-color: #d7d7d764;
+    color: #535353;
+    text-decoration: none;
+    margin-bottom: 10px;
+    border-radius: 8px; /* 테두리 둥글기 설정 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+}
+
+.large-button:hover {
+    background-color: #eeeeee;
+    /* hover 시 색상 변경 */
+}
+
+footer {
+    background-color: #f4f4f4;
+    color: rgb(102, 102, 102);
+    text-align: right;
+    padding: 10px;
+    font-size: 15px;
+    font-style: italic;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    margin-top: auto; /* 아래로 푸시하여 맨 아래에 배치 */
+  }
+  footer p{
+    margin: 1px 0;
+  }
+  footer a{
+    color: inherit;
+    text-decoration: none;
+  }

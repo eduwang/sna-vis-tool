@@ -10,8 +10,15 @@ import { degreeCentrality, inDegreeCentrality, outDegreeCentrality } from 'graph
 import eigenvectorCentrality from 'graphology-metrics/centrality/eigenvector';
 
 
-document.getElementById('drawGraphButton').addEventListener('click', drawGraph);
-document.getElementById('update-graph-from-table').addEventListener('click', updateGraphFromTable);
+const drawGraphButton = document.getElementById('drawGraphButton');
+if (drawGraphButton) {
+    drawGraphButton.addEventListener('click', drawGraph);
+}
+
+const updateGraphButton = document.getElementById('update-graph-from-table');
+if (updateGraphButton) {
+    updateGraphButton.addEventListener('click', updateGraphFromTable);
+}
 
 let graph;
 let sigmaInstance;

@@ -7,8 +7,9 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        sample: resolve(__dirname, 'sample-data.html'),
-        diy: resolve(__dirname, 'data-input-diy.html'),
+        csv: resolve(__dirname, 'from-csv.html'),
+        sample: resolve(__dirname, 'from-smaple.html'),
+        table: resolve(__dirname, 'from-table.html'),
       },
     },
   },

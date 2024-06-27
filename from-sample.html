@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Social Network Analysis</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- decode 방식이 다름 -->
+    <script src="https://cdn.jsdelivr.net/npm/text-encoding-detector@0.2.1/dist/encoding-indexes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/text-encoding-detector@0.2.1/dist/text-encoding-detect.js"></script>
+    <!--  -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
@@ -12,46 +16,41 @@
 <body>
     <div class="container">
         <header>
-            <h1>Social Network Analysis - Graph Visualizer</h1>
+            <h1>Social Network Analysis - Graph Visualizer (from sample data)</h1>
+            <h3>각 예시 데이터를 클릭하여 그래프의 선분 데이터 정보를 확인하고 그래프를 그릴 수 있습니다.</h3>
+            <div id="sample-container">
+                <button onclick="loadData('sample-data/sample_data_01_marvel.csv')">Data 1</button>
+                <button onclick="loadData('sample-data/sample_data_02_SH.csv')">Data 2</button>
+                <button onclick="loadData('sample-data/sample_data_03_star.csv')">Data 3</button>
+            </div>
         </header>
         <div class="main-content">
-            <div class="new-left-section">
-                <div class="dynamic-table-container">
-                    <table id="dynamic-table">
-                        <thead>
-                            <tr>
-                                <th>Source1</th>
-                                <th>Source2</th>
-                                <th>Weight</th>
-                                <th style="border-top:0; border-right: 0; border-bottom: 0;"></th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-body">
-                            <tr>
-                                <td class="input-text"><input type="text" value="Data 1"></td>
-                                <td class="input-text"><input type="text" value="Data 2"></td>
-                                <td class="input-text"><input type="number" value="3" class="tabbable"></td> 
-                                <td class="deleteButtonColumn"><button class="delete-row">X</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <button id="add-row">Add Row</button>
+            <div class="left-section">
+                <input type="file" id="csvFileInput" accept=".csv" style="display: none;"/>
+                <div>
+                    <button onclick="handleFile()" style="display: none;">Load CSV</button>
+                    <p id="data-count"></p> 
+                    <p id="error-csv-message"></p>
                 </div>
-            
+                <div id="csvDataDisplay">
+                    <table id="csvTable">
+                        <thead>
+                            <tr id="csvHeader"></tr>
+                        </thead>
+                        <tbody id="csvBody"></tbody>
+                    </table>
+                </div>
             </div>
-            <div class="new-right-section">
+            <div class="right-section">
                 <div id="graphDisplay">
-                    <button id="drawGraphButton" style="display: none;">Draw a Graph!</button>
-                    <button id="update-graph-from-table">Draw a Graph!</button>
+                    <button id="drawGraphButton" >Draw a Graph!</button>
                     <div id="error-display" style="visibility: hidden;"></div>
                     <div id="sigma-container"></div>
                 </div>
             </div>
         </div>
-        <!-- 두 번째 섹션 -->
         <div id="additional-contents" style="display: none;">
-            <div class="new-control-panel">
+            <div class="control-panel">
                 <button id="communities-identifier" style="display: none;">Identify Communities</button>
                 <button id="com-label" style="display: none;">Label Communities</button>
                 <button id="com-detect-on">Communities Detection ON</button>
@@ -60,7 +59,7 @@
                 <button id="com-detect-off" style="display: none;">Communities Detection OFF</button>
                 <p>Communities are assigned by <a href="https://en.wikipedia.org/wiki/Louvain_method" style="text-decoration: none; color: inherit;" target="_blank">Louvain algorithm</a></p>
             </div>
-            <div class="new-controlled-data-panel">
+            <div class="controlled-data-panel">
                 <div id="community-table-panel" style="display: none;">
                     <table id="community-table">
                         <thead>
@@ -69,21 +68,23 @@
                                 <th>Nodes</th>
                             </tr>
                             <tbody id="community-body">
+    
                             </tbody>
                         </thead>    
                     </table>
                 </div>
+
             </div>
         </div>
 
         <!-- 세 번째 섹션 -->
         <div id="additional-contents-centrality" style="display: none;">
-            <div class="new-control-panel" style="text-align: center;">
+            <div class="control-panel">
                 <button id="compute-cen">Compute Centrality</button>
                 <button id="sort-by-degree" style="width: 49%; font-size: 15px; display: none;">Sort by Degree Centrality</button>
                 <button id="sort-by-eigen" style="width: 49%; font-size: 15px; display: none;">Sort by Eigenvector Centrality</button>
             </div>
-            <div class="new-controlled-data-panel">
+            <div class="controlled-data-panel">
                 <div id="centrality-table-panel" style="display: none;">
                     <table>
                         <thead>
@@ -99,14 +100,15 @@
                 </div>
             </div>
         </div>
-
+        
         <footer>
+            <p><a href="/index.html" style="color: #000000;">Home</a></p>
             <p>Made by Hyowon Wang</p>
             <p>with <a target="_blank" href="https://graphology.github.io/">graphology</a> + <a target="_blank" href="https://www.sigmajs.org/">sigma.js</a></p>
         </footer>
     </div>
     <script type="module" src="1_dataViewer.js"></script>
     <script type="module" src="2_graphVisualizer.js"></script>
-    <script type="module" src="4_diyData.js"></script>
+    <script type="module" src="3_sampleDataLoader.js" defer></script>
 </body>
 </html>
