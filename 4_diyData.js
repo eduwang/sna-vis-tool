@@ -19,13 +19,15 @@ function addRow() {
         const newCell = newRow.insertCell(i);
         if (i < 3) {
             const input = document.createElement('input');
-            input.type = 'text';
             newCell.appendChild(input);
+            newCell.classList.add('input-text')
             if (i === 0) {
                 firstInput = input; // 첫 번째 입력 요소 저장
+                input.type = 'text';
             }
             if (i === 2) {
                 thirdInput = input; // 세 번째 입력 요소 저장
+                input.type = 'number';
             }
         } else {
             const button = document.createElement('button');

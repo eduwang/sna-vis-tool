@@ -28,9 +28,9 @@
                         </thead>
                         <tbody id="table-body">
                             <tr>
-                                <td><input type="text" value="Data 1"></td>
-                                <td><input type="text" value="Data 2"></td>
-                                <td><input type="number" value="3" class="tabbable"></td> 
+                                <td class="input-text"><input type="text" value="Data 1"></td>
+                                <td class="input-text"><input type="text" value="Data 2"></td>
+                                <td class="input-text"><input type="number" value="3" class="tabbable"></td> 
                                 <td class="deleteButtonColumn"><button class="delete-row">X</button></td>
                             </tr>
                         </tbody>
@@ -42,7 +42,8 @@
             </div>
             <div class="new-right-section">
                 <div id="graphDisplay">
-                    <button id="drawGraphButton" >Draw a Graph!</button>
+                    <button id="drawGraphButton" style="display: none;">Draw a Graph!</button>
+                    <button id="update-graph-from-table">Draw a Graph!</button>
                     <div id="error-display" style="visibility: hidden;"></div>
                     <div id="sigma-container"></div>
                 </div>
@@ -50,7 +51,7 @@
         </div>
         <!-- 두 번째 섹션 -->
         <div id="additional-contents" style="display: none;">
-            <div class="control-panel">
+            <div class="new-control-panel">
                 <button id="communities-identifier" style="display: none;">Identify Communities</button>
                 <button id="com-label" style="display: none;">Label Communities</button>
                 <button id="com-detect-on">Communities Detection ON</button>
@@ -59,7 +60,7 @@
                 <button id="com-detect-off" style="display: none;">Communities Detection OFF</button>
                 <p>Communities are assigned by <a href="https://en.wikipedia.org/wiki/Louvain_method" style="text-decoration: none; color: inherit;" target="_blank">Louvain algorithm</a></p>
             </div>
-            <div class="controlled-data-panel">
+            <div class="new-controlled-data-panel">
                 <div id="community-table-panel" style="display: none;">
                     <table id="community-table">
                         <thead>
@@ -77,12 +78,12 @@
 
         <!-- 세 번째 섹션 -->
         <div id="additional-contents-centrality" style="display: none;">
-            <div class="control-panel" style="text-align: center;">
+            <div class="new-control-panel" style="text-align: center;">
                 <button id="compute-cen">Compute Centrality</button>
                 <button id="sort-by-degree" style="width: 49%; font-size: 15px; display: none;">Sort by Degree Centrality</button>
                 <button id="sort-by-eigen" style="width: 49%; font-size: 15px; display: none;">Sort by Eigenvector Centrality</button>
             </div>
-            <div class="controlled-data-panel">
+            <div class="new-controlled-data-panel">
                 <div id="centrality-table-panel" style="display: none;">
                     <table>
                         <thead>

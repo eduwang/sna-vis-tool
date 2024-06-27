@@ -11,6 +11,7 @@ import eigenvectorCentrality from 'graphology-metrics/centrality/eigenvector';
 
 
 document.getElementById('drawGraphButton').addEventListener('click', drawGraph);
+document.getElementById('update-graph-from-table').addEventListener('click', updateGraphFromTable);
 
 let graph;
 let sigmaInstance;
@@ -512,3 +513,33 @@ function sortByEC(){
         centralityBody.appendChild(row);
     });    
 };
+
+// dynamic-table 데이터 다루기
+function updateGraphFromTable() {
+    const tableBody = document.getElementById('table-body');
+    const rows = tableBody.getElementsByTagName('tr');
+
+    // Prepare data structure to hold graph data
+    const newData = [];
+
+    // Iterate through table rows to collect data
+    for (let i = 0; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        if (cells.length === 4) { // Ensure correct number of columns per row
+            const Source1 = cells[0].querySelector('input').value.trim();
+            const Source2 = cells[1].querySelector('input').value.trim();
+            const Weight = parseFloat(cells[2].querySelector('input').value.trim());
+
+            // Validate and push valid data to newData array
+            if (Source1 && Source2 && !isNaN(Weight)) {
+                newData.push({ Source1, Source2, Weight });
+            }
+        }
+    }
+
+    // Update csvData in the global window object
+    window.csvData = newData;
+
+    // Redraw the graph with updated data
+    drawGraph();
+}
