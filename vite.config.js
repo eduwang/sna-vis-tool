@@ -8,7 +8,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         csv: resolve(__dirname, 'from-csv.html'),
-        sample: resolve(__dirname, 'from-smaple.html'),
+        sample: resolve(__dirname, 'from-sample.html'),
         table: resolve(__dirname, 'from-table.html'),
       },
     },
