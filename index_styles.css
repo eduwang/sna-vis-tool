@@ -31,15 +31,14 @@ h1 {
 
 .main-section {
     display: flex;
-    margin: 20px auto; /* 중앙 정렬 및 상단과 하단 여백 추가 */
-    padding: 0 20px; /* 좌우 여백 추가 */
     box-sizing: border-box; /* padding을 포함한 전체 너비 계산 */
     justify-content: space-between;
+    padding-bottom: 2%;
+
 }
 
 .left-content {
     flex: 1;
-    padding: 20px;
 }
 
 .left-content img {
@@ -71,7 +70,8 @@ h1 {
 .large-button {
     display: block;
     width: 100%;
-    padding: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     text-align: center;
     background-color: #d7d7d764;
     color: #535353;
@@ -87,46 +87,59 @@ h1 {
 }
 
 footer {
+    display: flex;
+    justify-content: space-between;
     background-color: #f4f4f4;
     color: rgb(102, 102, 102);
-    text-align: right;
-    padding: 10px;
     font-size: 15px;
     font-style: italic;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    margin-top: auto; /* 아래로 푸시하여 맨 아래에 배치 */
+    bottom: 0; /* Stick footer to the bottom of the page */
+    left: 0; /* Align footer to the left */
+    align-items: flex-end; /* Align items to the bottom */
   }
-  footer p{
-    margin: 1px 0;
-  }
-  footer a{
-    color: inherit;
-    text-decoration: none;
-  }
-  .platform-warning{
-    display: none;
-  }
+  
+.footer-left {
+flex: 1;
+text-align: left;
+}
 
-  @media (max-width: 768px) {
-    .main-section {
-        flex-direction: column; /* 모바일 환경에서 세로 배치 */
-    }
+.footer-right {
+flex: 1;
+text-align: right;
+}
 
-    .left-content, .right-content {
-        width: 100%; /* 모바일 환경에서 전체 너비를 사용 */
-        padding: 20px; /* 내부 여백 추가 */
-    }
+footer p{
+margin: 1px 0;
+}
+footer a{
+color: inherit;
+text-decoration: none;
+}
+.platform-warning{
+display: none;
+}
 
-    .right-content {
-        padding-top: 5%;
-        padding-bottom: 5%;
-        padding-left: 0; /* 좌측 패딩 제거 */
-        margin-top: 20px; /* 위쪽 마진 추가 */
-    }
-    .platform-warning{
-        display: inline;
-        font-size: 20px;
-        font-family: "Noto Sans KR", sans-serif;
-        text-align: center;
-        margin-bottom: 10%;
-    }}
+@media (max-width: 768px) {
+.main-section {
+    flex-direction: column; /* 모바일 환경에서 세로 배치 */
+}
+
+.left-content, .right-content {
+    width: 100%; /* 모바일 환경에서 전체 너비를 사용 */
+    padding: 20px; /* 내부 여백 추가 */
+}
+
+.right-content {
+    padding-top: 5%;
+    padding-bottom: 5%;
+    padding-left: 0; /* 좌측 패딩 제거 */
+    margin-top: 20px; /* 위쪽 마진 추가 */
+}
+.platform-warning{
+    display: inline;
+    font-size: 20px;
+    font-family: "Noto Sans KR", sans-serif;
+    text-align: center;
+    margin-bottom: 10%;
+}}

@@ -137,15 +137,29 @@ th {
   margin-top: 1%;
 }
 footer {
+  display: flex;
+  justify-content: space-between;
   background-color: #f4f4f4;
   color: rgb(102, 102, 102);
-  text-align: right;
-  padding: 10px;
   font-size: 15px;
   font-style: italic;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  margin-top: auto; /* 아래로 푸시하여 맨 아래에 배치 */
+  bottom: 0; /* Stick footer to the bottom of the page */
+  left: 0; /* Align footer to the left */
+  align-items: flex-end; /* Align items to the bottom */
+
 }
+
+.footer-left {
+flex: 1;
+text-align: left;
+}
+
+.footer-right {
+flex: 1;
+text-align: right;
+}
+
 footer p{
   margin: 1px 0;
 }
