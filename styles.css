@@ -124,12 +124,17 @@ th {
   flex-direction: column;
   justify-content: space-between;
   position: relative; /* For absolute positioning of sigma-container */
+  margin-bottom: 2%;
+}
+
+#sigma-container.fullscreen{
+  background-color: white;
 }
 
 #sigma-container {
   flex-grow: 1;
   flex-basis: 90%; /* 80% of graphDisplay height */
-  height: 95%; /* Ensure sigma-container fills graphDisplay */
+  height: 100%; /* Ensure sigma-container fills graphDisplay */
   position: relative; /* Ensure height calculation works correctly */
   overflow: hidden;
   border: 0.5px solid #000000; /* 검은색 2픽셀 실선 테두리 */
@@ -228,6 +233,7 @@ footer a{
 #dynamic-table{
   width: 100%;
   border-collapse: collapse;
+  margin-bottom: 3%;
 }
 
 td input {
