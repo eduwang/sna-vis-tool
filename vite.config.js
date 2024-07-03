@@ -10,6 +10,7 @@ export default defineConfig({
         csv: resolve(__dirname, 'from-csv.html'),
         sample: resolve(__dirname, 'from-sample.html'),
         table: resolve(__dirname, 'from-table.html'),
+        patchnotes: resolve(__dirname, 'patchnotes'),
       },
     },
   },
