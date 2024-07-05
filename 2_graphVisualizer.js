@@ -8,6 +8,7 @@ import louvain from 'graphology-communities-louvain';
 import iwanthue from 'iwanthue';
 import { degreeCentrality, inDegreeCentrality, outDegreeCentrality } from 'graphology-metrics/centrality/degree';
 import eigenvectorCentrality from 'graphology-metrics/centrality/eigenvector';
+import FileSaver from "file-saver";
 
 
 const drawGraphButton = document.getElementById('drawGraphButton');
@@ -30,6 +31,12 @@ function drawGraph() {
     errorDisplay.style.display = 'block';
     sortByDegree.style.display = 'none';
     sortByEigen.style.display = 'none';
+    if (fullScreenButton){
+        fullScreenButton.style.display = 'inline'
+    };
+    if (saveAsPngButton){
+        saveAsPngButton.style.display = 'inline'
+    };
     comResolution = 1;
     if (comDetectOff.style.display == 'block'){
         singleCommunity();
@@ -53,7 +60,7 @@ function drawGraph() {
         const degrees = graph.nodes().map((node) => graph.degree(node));
         const minDegree = Math.min(...degrees);
         const maxDegree = Math.max(...degrees);
-        const minSize = 2, maxSize = 10;
+        const minSize = 3, maxSize = 15;
         graph.forEachNode((node) => {
             const degree = graph.degree(node);
             graph.setNodeAttribute(
@@ -104,6 +111,91 @@ function drawGraph() {
         communityBody.innerHTML = ''; // 기존 내용 제거
     }
 
+}
+
+//make a graph full screen
+const fullScreenButton = document.getElementById('full-screen-button');
+if (fullScreenButton){
+    document.getElementById('full-screen-button').addEventListener('click', function() {
+        let graphDisplay = document.getElementById('sigma-container');
+        if (graphDisplay.requestFullscreen) {
+            graphDisplay.requestFullscreen();
+        } else if (graphDisplay.mozRequestFullScreen) { // Firefox
+            graphDisplay.mozRequestFullScreen();
+        } else if (graphDisplay.webkitRequestFullscreen) { // Chrome, Safari and Opera
+            graphDisplay.webkitRequestFullscreen();
+        } else if (graphDisplay.msRequestFullscreen) { // IE/Edge
+            graphDisplay.msRequestFullscreen();
+        }
+        graphDisplay.classList.add('fullscreen');
+    });
+    
+    document.addEventListener('fullscreenchange', function() {
+        if (!document.fullscreenElement) {
+            console.log('Exited full-screen mode.');
+        }
+    });
+};
+
+
+//save as PNG button
+const saveAsPngButton = document.getElementById('save-as-png');
+if (saveAsPngButton){
+    document.getElementById('save-as-png').addEventListener('click', function() {
+        if (sigmaInstance) {
+            saveAsPNG(sigmaInstance);
+        } else {
+            alert('Graph has not been drawn yet.');
+        }
+    });
+    
+    async function saveAsPNG(renderer, inputLayers) {
+        const { width, height } = renderer.getDimensions();
+        const pixelRatio = window.devicePixelRatio || 1;
+    
+        const tmpRoot = document.createElement("DIV");
+        tmpRoot.style.width = `${width}px`;
+        tmpRoot.style.height = `${height}px`;
+        tmpRoot.style.position = "absolute";
+        tmpRoot.style.right = "101%";
+        tmpRoot.style.bottom = "101%";
+        document.body.appendChild(tmpRoot);
+    
+        const tmpRenderer = new Sigma(renderer.getGraph(), tmpRoot, renderer.getSettings());
+        tmpRenderer.getCamera().setState(renderer.getCamera().getState());
+        tmpRenderer.refresh();
+    
+        const canvas = document.createElement("CANVAS");
+        canvas.setAttribute("width", width * pixelRatio + "");
+        canvas.setAttribute("height", height * pixelRatio + "");
+        const ctx = canvas.getContext("2d");
+    
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, width * pixelRatio, height * pixelRatio);
+    
+        const canvases = tmpRenderer.getCanvases();
+        const layers = inputLayers ? inputLayers.filter((id) => !!canvases[id]) : Object.keys(canvases);
+        layers.forEach((id) => {
+            ctx.drawImage(
+                canvases[id],
+                0,
+                0,
+                width * pixelRatio,
+                height * pixelRatio,
+                0,
+                0,
+                width * pixelRatio,
+                height * pixelRatio,
+            );
+        });
+    
+        canvas.toBlob((blob) => {
+            if (blob) FileSaver.saveAs(blob, "graph.png");
+    
+            tmpRenderer.kill();
+            tmpRoot.remove();
+        }, "image/png");
+    }
 }
 
 

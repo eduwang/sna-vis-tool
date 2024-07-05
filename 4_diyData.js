@@ -58,3 +58,35 @@ function deleteRow(button) {
     row.parentElement.removeChild(row);
     console.log("Row deleted");
 }
+
+document.getElementById('download-csv').addEventListener('click', function() {
+    let table = document.getElementById('dynamic-table');
+    let rows = table.rows;
+    let csvContent = '';
+
+    for (let i = 0; i < rows.length; i++) {
+        let cells = rows[i].cells;
+        let rowContent = [];
+        for (let j = 0; j < cells.length-1; j++) {
+            let input = cells[j].querySelector('input');
+            if (input) {
+                rowContent.push(input.value);
+            } else {
+                rowContent.push(cells[j].innerText);
+            }
+        }
+        csvContent += rowContent.join(',') + '\n';
+    }
+
+    let blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    let link = document.createElement('a');
+    if (link.download !== undefined) { // feature detection
+        let url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'table_data.csv');
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+});
