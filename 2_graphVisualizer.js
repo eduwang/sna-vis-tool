@@ -45,18 +45,29 @@ function drawGraph() {
     if (window.csvData && window.csvData.length > 0) {
         graph = new Graph();
         
+        // Find the maximum weight
+        let maxWeight = 0;
+        window.csvData.forEach(row => {
+            if (row.Weight > maxWeight) {
+                maxWeight = row.Weight;
+            }
+        });
+
+        // Normalize weights and add nodes/edges to the graph
         window.csvData.forEach(row => {
             const { Source1, Source2, Weight } = row;
+            const normalizedWeight = Weight / maxWeight; // Scale the weight
+
             if (!graph.hasNode(Source1)) {
                 graph.addNode(Source1, { label: Source1 });
             }
             if (!graph.hasNode(Source2)) {
                 graph.addNode(Source2, { label: Source2 });
             }
-            graph.addEdge(Source1, Source2, { size: Weight*2 });
+            graph.addEdge(Source1, Source2, { size: normalizedWeight * 2 });
         });
 
-        //degree를 이용하여 노드 크기 조절
+        // Degree-based node size adjustment
         const degrees = graph.nodes().map((node) => graph.degree(node));
         const minDegree = Math.min(...degrees);
         const maxDegree = Math.max(...degrees);
@@ -72,7 +83,7 @@ function drawGraph() {
         
         //Position nodes on a circle, then run Force Atlas 2 for a while to get proper graph layout:  
         circular.assign(graph);
-        forceAtlas2.assign(graph, { iterations: 300 });
+        forceAtlas2.assign(graph, { iterations: 500 });
 
         // Clear previous graph if exists
         if (sigmaInstance) {

@@ -1,6 +1,6 @@
 import Papa from "papaparse";
 
-function loadData(csvPath) {
+function loadData(csvPath, className) {
     const csvFilePath = csvPath; // CSV 파일 경로
     fetch(csvFilePath)
         .then(response => response.arrayBuffer())
@@ -8,12 +8,26 @@ function loadData(csvPath) {
             const encoding = detectEncoding(arrayBuffer);
             const text = decodeText(arrayBuffer, encoding); // 인코딩된 텍스트 디코딩
             parseCSV(text);
+            showDescription(className); // 설명을 표시
         })
         .catch(error => {
             console.error('Error loading CSV file:', error);
         });
 }
 
+function showDescription(className) {
+    // 모든 설명을 숨깁니다.
+    const descriptions = document.querySelectorAll('.description');
+    descriptions.forEach(function(description) {
+        description.style.display = 'none';
+    });
+
+    // 해당 설명을 표시합니다.
+    const selectedDescription = document.querySelector('.' + className);
+    if (selectedDescription) {
+        selectedDescription.style.display = 'block';
+    }
+}
 window.loadData = loadData;
 
 function detectEncoding(buffer) {

@@ -28,9 +28,48 @@
             <h1>Social Network Analysis Graph Visualizer from sample data</h1>
             <h3>각 예시 데이터를 클릭하여 그래프의 선분 데이터 정보를 확인하고 그래프를 그릴 수 있습니다.</h3>
             <div id="sample-container">
-                <button onclick="loadData('sample-data/sample_data_01_marvel.csv')">Data 1</button>
-                <button onclick="loadData('sample-data/sample_data_02_SH.csv')">Data 2</button>
-                <button onclick="loadData('sample-data/sample_data_03_star.csv')">Data 3</button>
+                <button onclick="loadData('sample-data/sample_data_01_actor.csv', 'data-1')">Data 1</button>
+                <button onclick="loadData('sample-data/sample_data_02_SH.csv', 'data-2')">Data 2</button>
+                <button onclick="loadData('sample-data/sample_data_03_star.csv', 'data-3')">Data 3</button>
+                <button onclick="loadData('sample-data/sample_data_04_marvel.csv', 'data-4')">Data 4</button>
+                <button onclick="loadData('sample-data/sample_data_05_got.csv', 'data-5')">Data 5</button>
+            </div>
+            <div id="sample-information">
+                <div class="description data-1">
+                    <h3>마블 영화(~2019년)에 출연한 배우들의 네트워크</h3>
+                    <div style="text-align: left;">
+                        <p>Chris Evans를 중심으로 Chris Evans와 같이 출연한 배우들이 서로 함꼐 출연한 작품의 수를 기준으로 제작된에 대한 네트워크</p>
+                        <p>원본 데이터를 가공함, 원본 데이터 출처: <a style="text-decoration: none; color: inherit;" href="https://www.kaggle.com/datasets/shivamb/netflix-shows">링크</a></p>
+                    </div>
+                </div>
+                <div class="description data-2">
+                    <h3>시흥 맛집 네트워크</h3>
+                    <div style="text-align: left;">
+                        <p>2022년 1년간 '시흥 맛집'에 대한 블로그 글을 수집한 다음, 키워드를 추출한 후, 같은 글에 등장한 관계를 표현한 네트워크</p>
+                        <p>출처: 2023 시흥 창의융합 진로캠프</p>
+                    </div>    
+                </div>
+                <div class="description data-3">
+                    <h3>별 그래프</h3>
+                    <div style="text-align: left;">
+                        <p>기본적인 별 그래프</p>
+                    </div>
+                </div>
+                <div class="description data-4">
+                    <h3>마블 캐릭터 네트워크</h3>
+                    <div style="text-align: left;">
+                        <p>마블 원작 만화에서 같은 만화책에 두 캐릭터가 함께 등장하는 횟수를 기준으로 계산된 네트워크</p>
+                        <p>출처: <a style="text-decoration: none; color: inherit;" href="https://github.com/melaniewalsh/sample-social-network-datasets/tree/master/sample-datasets/marvel">링크</a></p>
+                    </div>
+                </div>
+                <div class="description data-5">
+                    <h3>왕좌의 게임 등장인물 네트워크</h3>
+                    <div style="text-align: left;">
+                        <p>George R. R. Martin의 A Storm of Swords 시리즈 중 세 번째 소설인 'A Storm of Swords'(왕좌의 게임 원작)에 등장하는 인물들 간의 관계를 분석한 네트워크 데이터</p>
+                        <p>두 캐릭터의 이름이 소설 내에서 15단어 이내에 몇 번 등장하는지를 기준으로 계산된 네트워크</p>
+                        <p>출처: <a style="text-decoration: none; color: inherit;" href="https://github.com/melaniewalsh/sample-social-network-datasets/tree/master/sample-datasets/game-of-thrones">링크</a></p>
+                    </div>
+                </div>
             </div>
         </header>
         <div class="main-content">
@@ -112,7 +151,7 @@
         </div>
         <footer>
             <div class="footer-left">
-                <p>Ver 1.3</p>
+                <p>Ver 1.4</p>
                 <p>For Feedback : <a href="mailto:eduwang1010.dev@gmail.com">eduwang1010.dev@gmail.com</a></p>
             </div>
             <div class="footer-right">

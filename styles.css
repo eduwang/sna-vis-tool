@@ -276,3 +276,8 @@ td input {
   border: 1cm;
   z-index: 10;
 }
+
+/* Sample data description */
+.description{
+  display: none;
+}
