@@ -25,6 +25,8 @@ let graph;
 let sigmaInstance;
 let container;
 let comResolution = 1;
+let highlightedNodes = new Set();
+
 
 function drawGraph() {
     const errorDisplay = document.getElementById('error-display');
@@ -96,12 +98,27 @@ function drawGraph() {
         container.innerHTML = '';
         const settings = {
             labelFont: "Arial",
-            //labelSize: 50, // Increase this value to make labels larger
-            labelWeight: "bold", // Make labels bold
-            defaultNodeLabelSize: 50, // Default label size for nodes
+            labelWeight: "bold",
+            defaultNodeLabelSize: 50,
         };
 
         sigmaInstance = new Sigma(graph, container, { settings });
+
+        // Add event listeners for highlighting neighbors
+        sigmaInstance.on('enterNode', (event) => {
+            const nodeId = event.node;
+            const neighbors = new Set(graph.neighbors(nodeId));
+            neighbors.add(nodeId); // Include the node itself
+
+            highlightedNodes = neighbors;
+            updateGraphColors();
+        });
+
+        sigmaInstance.on('leaveNode', () => {
+            highlightedNodes = new Set();
+            updateGraphColors();
+        });
+
         errorDisplay.style.visibility = 'hidden';
         const additionalControl = document.getElementById('additional-contents');
         additionalControl.style.display = 'flex';
@@ -109,19 +126,42 @@ function drawGraph() {
         centralityTable.style.display = 'flex';
 
         if (additionalControl) {
-            additionalControl.scrollIntoView({ behavior: 'smooth', block: 'start' }); // 스크롤을 부드럽게 처리하며 요소 상단에 맞춤
+            additionalControl.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     } else {
         errorDisplay.textContent = '불러온 CSV 데이터가 없습니다.';
-        errorDisplay.style.visibility = 'visible'; // 오류 메시지 표시
+        errorDisplay.style.visibility = 'visible';
     }
     if (centralityBody){
-        centralityBody.innerHTML = ''; // 기존 내용 제거
+        centralityBody.innerHTML = '';
     };
     if(communityBody){
-        communityBody.innerHTML = ''; // 기존 내용 제거
+        communityBody.innerHTML = '';
     }
+}
 
+function updateGraphColors() {
+    graph.forEachNode((node, attributes) => {
+        if (highlightedNodes.size === 0 || highlightedNodes.has(node)) {
+            graph.setNodeAttribute(node, 'color', attributes.originalColor || '#666');
+            graph.setNodeAttribute(node, 'hidden', false);
+        } else {
+            graph.setNodeAttribute(node, 'color', '#EEE');
+            graph.setNodeAttribute(node, 'hidden', true);
+        }
+    });
+
+    graph.forEachEdge((edge, attributes, source, target) => {
+        if (highlightedNodes.size === 0 || (highlightedNodes.has(source) && highlightedNodes.has(target))) {
+            graph.setEdgeAttribute(edge, 'color', attributes.originalColor || '#999');
+            graph.setEdgeAttribute(edge, 'hidden', false);
+        } else {
+            graph.setEdgeAttribute(edge, 'color', '#EEE');
+            graph.setEdgeAttribute(edge, 'hidden', true);
+        }
+    });
+
+    sigmaInstance.refresh();
 }
 
 //make a graph full screen
