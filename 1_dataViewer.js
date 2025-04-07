@@ -18,16 +18,29 @@ window.handleFile = handleFile;
 
 
 function detectEncoding(buffer) {
-    // Placeholder function to detect encoding
-    // You might use a library or custom logic to detect encoding more accurately
-    // For the sake of example, let's assume the encoding is EUC-KR
-    return 'euc-kr'; // Change this to the detected encoding if possible
+    const uint8Array = new Uint8Array(buffer);
+
+    // UTF-8 BOM: EF BB BF
+    if (uint8Array[0] === 0xEF && uint8Array[1] === 0xBB && uint8Array[2] === 0xBF) {
+        return 'utf-8'; // or 'utf-8-sig', TextDecoder handles it the same
+    }
+
+    // 다른 인코딩의 경우에는 수동 설정
+    return 'euc-kr'; // 기본값 (필요에 따라 변경)
 }
 
 function decodeText(arrayBuffer, encoding) {
     const decoder = new TextDecoder(encoding);
-    return decoder.decode(new Uint8Array(arrayBuffer));
+    let text = decoder.decode(new Uint8Array(arrayBuffer));
+
+    // UTF-8 with BOM (Byte Order Mark) 제거
+    if (text.charCodeAt(0) === 0xFEFF) {
+        text = text.slice(1);
+    }
+
+    return text;
 }
+
 const errorLoadingCsv = document.getElementById('error-csv-message');
 const tableDisplay = document.getElementById('csvDataDisplay');
 const dataCount = document.getElementById('data-count');
